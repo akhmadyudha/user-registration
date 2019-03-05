@@ -1,6 +1,7 @@
 package com.apress.ravi.Rest;
 
 import java.util.List;
+import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +48,11 @@ public class UserRegistrationRestController {
 	
 	// Method to create an user
 	@PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UsersDTO> createUser(@RequestBody final UsersDTO user) {
+	public ResponseEntity<UsersDTO> createUser(@Valid @RequestBody final UsersDTO user) {
+		logger.info("Creating user : {}", user);
 		// check whether username exists
 		if (userJpaRepository.findByName(user.getName()) != null) {
+			logger.error("Unable to create. A User with name {} already exitst", user.getName());
 			return new ResponseEntity<UsersDTO>(new CustomErrorType(
 					"Unable to create new user. A User with name "
 					+ user.getName() + " already exist."), HttpStatus.CONFLICT);
@@ -102,7 +105,7 @@ public class UserRegistrationRestController {
 	public ResponseEntity<UsersDTO> deleteUser(@PathVariable("id") final long id) {
 		UsersDTO user = userJpaRepository.findOne(id);
 		
-		// check wheter user exists
+		// check whether user exists
 		if (user == null) {
 			return new ResponseEntity<UsersDTO>(
 				   new CustomErrorType("Unable to delete. User with id " 
