@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.packtpub.restapp</groupId>
-	<artifactId>ticket-management</artifactId>
+	<artifactId>user-registration</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ticket-management</name>
 	<description>Demo project for Spring Boot</description>
